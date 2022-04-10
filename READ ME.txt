@@ -1,0 +1,49 @@
+READ ME
+Explanation of how the library system works
+I designed this by thinking of how the user would input data into the system for each of the tasks
+The library system uses dictionaries/local variable memory to hold the data until is then put into a JSON file for storage and retrieval/updating
+Library Methods is an abstract class that has one method call book_methods which is empty because it is going to be intialised for four of the tasks later
+
+
+Task One- Borrow a book
+The function that calls this is called class Borrow_Book(Library_Methods). 
+The borrow book class takes the user a scanned book id and a scanned member number.
+We then read in the book id and member id (card number) data from the csv files and store the data in an array. As the values are currently strings we convert them to integers.
+Next we get the current day using a format date function and the time.time() method
+Now we need to check if the book id and member number exist in the csv files, if they do we then add the required data to dictionary and them convert and create a new json file ('borrow_new_book.json') to hold the data. If the either the book id or member id does not exist than None is returned
+
+Task Two- Return a book
+The function that calls this is called class Return_Book(Library_Methods). 
+Again this works very similar to the borrow book but this time it is amending 'borrow_new_book.json' file and adding a return date as well as Late Return value for testing later
+
+Task Three - Apply_For_Membership
+The function that calls this is called class Apply_For_Membership(Library_Methods).
+This method users a person and create new member class
+From a user perspective, a person will only type in their first name, last name, gender and email which the Person class then creates.
+
+Create_New_Member class than inherits the person details as well as adding both a member id and a membership number
+The user information is then stored in a dictionary
+The apply for membership class takes in the user input and then creates a new id and a member number with initial value of 0 until changed later.
+This information is turned into a JSON file named 'new_member.json'
+
+Task Three - Update Membership Number
+This task has it's own method as the number is updated later. In this case it does not take in a user input so that the correct membrship number is added. However in a real life system, the librarian would input a membership number
+
+Task Four - Reserve Book
+This functions calls the class Reserve_Book(Library_Methods)
+It takes book id and member number and the checks to see if the values exist in the respective csv files
+This functions also creates a dictonary for each book so the details can be uploaded into a JSON along with the book id,member id, and status field set to available which means the book is available to reserve
+A file called 'reserved_book.json' is created with the above details added
+
+Task Five - Create Notifications
+I used an abstract design pattern to handle notifications. The abstract class class Notification(ABC) has a method called notificaton_email is set to not return anything so it can then be passed down to to there notification classses
+In terms of dealing with future notification requirements. I have used an abstract class so that if any more functions are needed in the future for all notifications than they can be passed down to each notification class.
+The notifications classes already use the csv and json reusable functions for reading to files and if needed they can use the ones I created for reading json files and if needed they can use the ones I created for appending and writing to json files.
+
+
+I also applied this design for creating the library functions call the main classes. I created a class called Library_Methods(ABC) with a book_methods functions. I can easily group the functions together under a static method called class Library_System which then listens to  a selected user input option and returns whichever classed is called i.e Borrow_Book, Return_Book. There is abstract functions called book_methods which is used for the first four tasks.
+I designed the Member and Book classes so that they could return a scan function which would scan the inputted ID for each one.
+Library Management class contains a set of 'generic' functions that can be used with different data files. For example it can read, create and update json files, it can perform functions on the data such as convert strings to integers. The functions have been created to follow the principle of the function doing one task and to be reusable for the future.
+
+The last thing to note is that for these tasks is that the json files only accept one record however some values will be overwritten when needed. In a real life system the json files would obviously hold as many records as possible but for this task they only hold one just to show it works.
+
